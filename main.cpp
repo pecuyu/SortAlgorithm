@@ -4,9 +4,7 @@
 
 int main() {
 
-    std::cout << "Hello, World!" << std::endl;
-
-    int length = 100000;
+    int length = 1000;
     int* arr = SortTestUtils::generateRandomArray(length, 0, 99999);
 
     //SortAlgorithm::selectionSort(arr, length);

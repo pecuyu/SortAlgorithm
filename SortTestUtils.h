@@ -39,14 +39,56 @@ namespace SortTestUtils{
         std::cout << std::endl;
     }
 
+    // ASC 升序
     template<typename T>
-    void calculateSort(string sortName, T array[],int length,
+    bool isAscSorted(const T array[], int length)
+    {
+        for (int i = 0; i < length-1; ++i) {
+            if (array[i] > array[i + 1]) {
+                return false;
+            }
+        }
+        cout << "isAscSorted" << endl;
+        return true;
+    }
+
+    // DESC 降序
+    template<typename T>
+    bool isDescSorted(const T array[], int length)
+    {
+        for (int i = 0; i < length-1; ++i) {
+            if (array[i] < array[i + 1]) {
+                return false;
+            }
+        }
+        cout << "isDescSorted" << endl;
+        return true;
+    }
+
+    template<typename T>
+    bool isSorted(const T array[], int length)
+    {
+        return isAscSorted(array, length) || isDescSorted(array, length);
+    }
+
+    /**
+     * 计算排序算法耗时
+     * @param sortName
+     * @param array
+     * @param length
+     * @param sort  使用的排序算法
+     * @param compare 元素比较函数, 默认 {SortAlgorithm::less)
+     */
+    template<typename T>
+    void calculateSort(const string& sortName, T array[],int length,
                        void (*sort)(T[], int length, bool(*compare)(T &one, T &another)),
                        bool(*compare)(T &one, T &another) = SortAlgorithm::less)
     {
         clock_t startTime = clock();
         sort(array, length,compare);
         clock_t endTime = clock();
+
+        assert(isSorted(array,length)); // 判断排序是否成功
 
         cout << sortName << " wastes " << double (endTime - startTime) / CLOCKS_PER_SEC <<"s"<< endl;
     }
