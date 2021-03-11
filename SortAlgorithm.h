@@ -84,6 +84,54 @@ namespace SortAlgorithm {
         }
     }
 
+    /**
+     * 插入排序
+     * @param array
+     * @param length
+     * @param compare
+     */
+    template<typename T>
+    void insertionSort(T array[], int length, bool (*compare)(T &one, T &another) = SortAlgorithm::less){
+        assert(array != nullptr);
+        assert(length > 0);
+
+        // 第0个元素默认算排序完成 从index 1 开始loop
+        for (int i = 1; i < length; ++i) {
+            // 从index为i的元素向前比较, 一旦compare不满足,则中断循环,否则交换元素
+            for (int j = i; j > 0 && compare(array[j], array[j - 1]); --j) {
+                swap(array[j], array[j - 1]);
+            }
+        }
+    }
+
+    /**
+     * 插入排序
+     * 使用赋值替代swap
+     * @param array
+     * @param length
+     * @param compare
+     */
+    template<typename T>
+    void insertionSortOptimize(T array[], int length, bool (*compare)(T &one, T &another) = SortAlgorithm::less){
+        assert(array != nullptr);
+        assert(length > 0);
+
+        // 第0个元素默认算排序完成 从index 1 开始loop
+        for (int i = 1; i < length; ++i) {
+            // 从index为i-1的元素向前和pendingToInsert比较, 一旦compare不满足,则中断循环, 否则元素后移一位
+            T pendingToInsert = array[i];// 寻找 array[i] 合适的插入位置
+            int j = i; // 保存元素要插入的位置
+            for (; j > 0 && compare(pendingToInsert, array[j - 1]); --j) {
+                array[j] = array[j - 1]; // 元素往后移动一位
+            }
+
+            if (j != i) {
+                array[j] = pendingToInsert;
+            }
+        }
+    }
+
+
 }
 
 #endif //SORTALGORITHM_SORTALGORITHM_H

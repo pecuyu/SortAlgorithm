@@ -32,6 +32,40 @@ namespace SortTestUtils{
         return array;
     }
 
+    /**
+     * 生成一个近乎有序的数组
+     * @param length
+     * @param swapTimes 任意交换数组元素的次数
+     * @param asc 升序还是降序
+     * @return
+     */
+    int *generateNearlyOrderedArray(int length, int swapTimes, bool asc = true) {
+        if (swapTimes >= length) {
+            swapTimes = length / 10;
+        }
+
+        int *array = new int[length];
+        for (int i = 0; i < length; ++i) {
+            array[i] = asc ? (i + 1) : (length - i);
+        }
+
+        srand(time(NULL));
+        for (int i = 0; i < swapTimes; ++i) { // 交换任意两处元素
+            int x = random() % length;
+            int y = random() % length;
+            SortAlgorithm::swap(array[x], array[y]);
+        }
+
+        return array;
+    }
+
+    int *copyIntArray(int array[], int length) {
+        int *resArray = new int[length];
+        copy(array, array + length, resArray);
+
+        return resArray;
+    }
+
     void printArray(int *array, int length) {
         for (int i = 0; i < length; ++i) {
             std::cout << array[i] << " ";
