@@ -11,7 +11,7 @@
 
 namespace SortAlgorithm {
 
-    template <typename T>
+    template<typename T>
     void swap(T &one, T &another) {
         T temp = one;
         one = another;
@@ -19,15 +19,21 @@ namespace SortAlgorithm {
     }
 
     template<typename T>
-    bool less(T &one, T &another){
+    bool less(T &one, T &another) {
         return one < another;
     }
 
     template<typename T>
-    bool more(T &one, T &another){
+    bool more(T &one, T &another) {
         return one > another;
     }
 
+    /**
+     * 选择排序
+     * @param array
+     * @param length
+     * @param compare 比较函数
+     */
     template<typename T>
     void selectionSort(T *array, int length,
                        bool(*compare)(T &one, T &another) = SortAlgorithm::less/* 默认比较函数*/) {
@@ -48,6 +54,28 @@ namespace SortAlgorithm {
         }
     }
 
+    /**
+     * 冒泡排序
+     * @param array
+     * @param length
+     * @param compare 比较函数
+     */
+    template<typename T>
+    void bubbleSort(T array[], int length,
+                    bool (*compare)(T &one, T &another) = SortAlgorithm::less) {
+        assert(array != nullptr);
+        assert(length > 0);
+
+        for (int i = 0; i < length; ++i) { // 遍历数组
+            for (int j = 0; j < length - i - 1; ++j) {
+                // 0...length-i ,每次遍历后,array[length-i-1] 为当前序列最值
+                // 比较 array[j] 和 array[(j+1)]
+                if (compare(array[j], array[j + 1])) {
+                    swap(array[j], array[j + 1]);
+                }
+            }
+        }
+    }
 
 }
 
