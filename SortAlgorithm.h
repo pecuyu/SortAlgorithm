@@ -187,7 +187,11 @@ namespace SortAlgorithm {
         int middle = left + (right - left) / 2;
         mergeSortInner(array, left, middle, compare); // 对左半部分进行排序
         mergeSortInner(array, middle, right, compare); // 对右半部分进行排序
-        mergeInner(array, left, middle, right, compare); // 将左右两个部分进行合并
+        // 当左半部分末尾元素和右半部分起始元素比较为false, 说明此时整体不是有序,需要进行合并排序,
+        // 否则说明已经时有序的了,直接跳过
+        if (!compare(array[middle - 1], array[middle])) {
+            mergeInner(array, left, middle, right, compare); // 将左右两个部分进行合并
+        }
     }
 
 
