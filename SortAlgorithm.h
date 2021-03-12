@@ -131,6 +131,77 @@ namespace SortAlgorithm {
         }
     }
 
+    /**
+     * 合并已经是有序的 [left,middle) 和 [middle,right) 两个子数组
+     * @param array
+     * @param left 左端,包含
+     * @param middle
+     * @param right 右端, 不包含
+     * @param compare
+     */
+    template<typename T>
+    void mergeInner(T array[], int left, int middle, int right, bool (*compare)(T &, T &) = SortAlgorithm::less){
+        if (left >= right) {
+            return;
+        }
+
+        T zoom[right - left];
+        for (int i = left; i < right; ++i) { // 将数组元素复制到临时的zoom
+            zoom[i - left] = array[i];
+        }
+
+        // 遍历zoom数组, 比较[left,middle) 和 [middle,right) 两个子数组元素
+        // compare后(比如大的),写回原来的array,直到写完, array即是有序的
+        int a = left, b = middle; // 两个子数组的起始index
+        for (int i = left; i < right; ++i) {
+            if (a >= middle) { // 此时a段子数组已经完全复制回去
+                array[i] = zoom[b - left];
+                b++;
+            } else if (b >= right) { // 此时b段子数组已经完全复制回去
+                array[i] = zoom[a - left];
+                a++;
+            } else if (compare(zoom[a - left], zoom[b - left])) { // 假定比较为true,先存储a段子数组元素
+                array[i] = zoom[a - left];
+                a++;
+            } else {
+                array[i] = zoom[b - left];
+                b++;
+            }
+        }
+    }
+
+
+    /**
+     * 对 [left, right) 的数组进行排序
+     * @param array
+     * @param left 左端,包含
+     * @param right 右端, 不包含
+     * @param compare
+     */
+    template <typename T>
+    void mergeSortInner(T array[],int left, int right,bool (*compare)(T &, T &) = SortAlgorithm::less){
+        if (right - left <= 1) { // 只有一个元素,视作已经有序,直接返回
+            return;
+        }
+
+        int middle = left + (right - left) / 2;
+        mergeSortInner(array, left, middle, compare); // 对左半部分进行排序
+        mergeSortInner(array, middle, right, compare); // 对右半部分进行排序
+        mergeInner(array, left, middle, right, compare); // 将左右两个部分进行合并
+    }
+
+
+    /**
+     * 归并排序
+     * @param array
+     * @param length
+     * @param compare
+     */
+    template<typename T>
+    void mergeSort(T array[], int length, bool (*compare)(T &, T &) = SortAlgorithm::less){
+        // 调用内部的merge 函数
+        mergeSortInner(array, 0, length, compare);
+    }
 
 }
 
