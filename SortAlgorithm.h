@@ -207,6 +207,29 @@ namespace SortAlgorithm {
         mergeSortInner(array, 0, length, compare);
     }
 
+
+    /**
+     * 使用for 循环来实现merge排序
+     * 自底向上,每隔2size 进行merge, 每次merge的size规模扩大2倍, 1, 2, 4, ...
+     * @tparam T
+     * @param array
+     * @param length
+     * @param compare
+     */
+    template<typename T>
+    void mergeSortWithForLoop(T array[], int length, bool (*compare)(T &, T &) = SortAlgorithm::less) {
+        assert(array != nullptr);
+        assert(length > 0);
+
+        for (int size = 1; size < length; size *= 2) { // 每次归并的size规模, 1, 2, 4, ...
+            for (int pos = 0; pos + size < length; pos += 2 * size) { // 从位置0, 每2size 进行merge
+                int middle = pos + size;
+                int right = std::min(pos + 2 * size, length);
+                mergeInner(array, pos, middle, right, compare); // merge 2size的数组
+            }
+        }
+    }
+
 }
 
 #endif //SORTALGORITHM_SORTALGORITHM_H

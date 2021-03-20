@@ -17,9 +17,12 @@ int main() {
     //SortTestUtils::calculateSort("insertionSort", arr, length, SortAlgorithm::insertionSort, SortAlgorithm::more);
    // SortTestUtils::calculateSort("insertionSortOptimize", nearlyOrderedArrayCopy, length, SortAlgorithm::insertionSortOptimize, SortAlgorithm::less);
 
-    SortTestUtils::calculateSort("mergeSort", nearlyOrderedArrayCopy, length, SortAlgorithm::mergeSort);
-    //SortTestUtils::printArray(nearlyOrderedArrayCopy, length);
+    //SortTestUtils::calculateSort("mergeSort", nearlyOrderedArrayCopy, length, SortAlgorithm::mergeSort);
 
+    SortTestUtils::calculateSort("mergeSortWithForLoop", nearlyOrderedArray, length,
+                                 SortAlgorithm::mergeSortWithForLoop);
+
+    SortTestUtils::printArray(nearlyOrderedArray, length);
     //delete[] arr;
     //delete[] arrCopy;
    // delete[]nearlyOrderedArray;
