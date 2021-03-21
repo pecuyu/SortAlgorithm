@@ -4,11 +4,11 @@
 
 int main() {
 
-    int length = 1000;
-    //int* arr = SortTestUtils::generateRandomArray(length, 0, 99999);
-    //int *arrCopy = SortTestUtils::copyIntArray(arr, length);
-    int *nearlyOrderedArray = SortTestUtils::generateNearlyOrderedArray(length, 1000);
-    int *nearlyOrderedArrayCopy = SortTestUtils::copyIntArray(nearlyOrderedArray, length);
+    int length = 1000000;
+    int* arr = SortTestUtils::generateRandomArray(length, 0, 99999);
+    int *arrCopy = SortTestUtils::copyIntArray(arr, length);
+    //int *nearlyOrderedArray = SortTestUtils::generateNearlyOrderedArray(length, 1000);
+    //int *nearlyOrderedArrayCopy = SortTestUtils::copyIntArray(nearlyOrderedArray, length);
     //SortAlgorithm::selectionSort(arr, length);
     //SortTestUtils::calculateSort("selectionSort", nearlyOrderedArray, length, SortAlgorithm::selectionSort);
     //SortTestUtils::printArray(nearlyOrderedArray, length);
@@ -19,10 +19,12 @@ int main() {
 
     //SortTestUtils::calculateSort("mergeSort", nearlyOrderedArrayCopy, length, SortAlgorithm::mergeSort);
 
-    SortTestUtils::calculateSort("mergeSortWithForLoop", nearlyOrderedArray, length,
+    SortTestUtils::calculateSort("mergeSortWithForLoop", arr, length,
                                  SortAlgorithm::mergeSortWithForLoop);
 
-    SortTestUtils::printArray(nearlyOrderedArray, length);
+    SortTestUtils::calculateSort("quickSort", arrCopy, length, SortAlgorithm::quickSort);
+
+    //SortTestUtils::printArray(nearlyOrderedArrayCopy, length);
     //delete[] arr;
     //delete[] arrCopy;
    // delete[]nearlyOrderedArray;
