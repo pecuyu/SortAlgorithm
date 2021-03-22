@@ -249,6 +249,10 @@ namespace SortAlgorithm {
             return 0;
         }
 
+        // 取随机一位放在left位置作为参考值
+        long p = random() % (right - left) + left;
+        swap(array[p], array[left]);
+
         T v = array[left]; // 认定此处的值为中间值进行分割
         // 假定k时分界线, 大于k的为大于v,小于k的都是小于v
         // 在此处使用compare进行对比, compare为true的在左边, 否则在右边
@@ -298,6 +302,7 @@ namespace SortAlgorithm {
         assert(array != nullptr);
         assert(length > 0);
 
+        srand(time(NULL));
         quickSortInner(array, 0, length, compare);
     }
 
