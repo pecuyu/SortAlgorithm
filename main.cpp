@@ -1,14 +1,18 @@
 #include <iostream>
 #include "SortAlgorithm.h"
 #include "SortTestUtils.h"
+#include "BubbleSort.h"
+#include "MergeSort.h"
+#include "QuickSort.h"
+
 
 int main() {
 
     int length = 1000000;
-    //int* arr = SortTestUtils::generateRandomArray(length, 0, 99999);
-    //int *arrCopy = SortTestUtils::copyIntArray(arr, length);
-    int *nearlyOrderedArray = SortTestUtils::generateNearlyOrderedArray(length, 1000);
-    int *nearlyOrderedArrayCopy = SortTestUtils::copyIntArray(nearlyOrderedArray, length);
+    int* arr = SortTestUtils::generateRandomArray(length, 0, 1000);
+    int *arrCopy = SortTestUtils::copyIntArray(arr, length);
+    //int *nearlyOrderedArray = SortTestUtils::generateNearlyOrderedArray(length, 1000);
+    //int *nearlyOrderedArrayCopy = SortTestUtils::copyIntArray(nearlyOrderedArray, length);
     //SortAlgorithm::selectionSort(arr, length);
     //SortTestUtils::calculateSort("selectionSort", nearlyOrderedArray, length, SortAlgorithm::selectionSort);
     //SortTestUtils::printArray(nearlyOrderedArray, length);
@@ -19,10 +23,11 @@ int main() {
 
     //SortTestUtils::calculateSort("mergeSort", nearlyOrderedArrayCopy, length, SortAlgorithm::mergeSort);
 
-    SortTestUtils::calculateSort("mergeSortWithForLoop", nearlyOrderedArray, length,
-                                 SortAlgorithm::mergeSortWithForLoop);
+    SortTestUtils::calculateSort("mergeSortWithForLoop", arr, length,
+                                 SortAlgorithm::MergeSort::mergeSortWithForLoop);
 
-    SortTestUtils::calculateSort("quickSort", nearlyOrderedArrayCopy, length, SortAlgorithm::quickSort);
+    SortTestUtils::calculateSort("quickSort", arrCopy, length, SortAlgorithm::QuickSort::quickSort);
+
 
     //SortTestUtils::printArray(nearlyOrderedArrayCopy, length);
     //delete[] arr;
