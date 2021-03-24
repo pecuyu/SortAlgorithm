@@ -6,6 +6,7 @@
 #define SORTALGORITHM_QUICKSORT_H
 
 #include "SortAlgorithm.h"
+#include "InsertionSort.h"
 
 namespace SortAlgorithm{
 
@@ -78,6 +79,71 @@ namespace SortAlgorithm{
             quickSortInner(array, pos + 1, right, compare); // 对右部分进行快排
         }
 
+        // 进行分割,返回分割点pos
+        // 对重复的元素v尽量均匀分散到左右2个子数组
+        template<typename T>
+        static int partition2(T array[], int left, int right, bool (*compare)(T &, T &) = SortAlgorithm::less){
+            assert(left <= right);
+            assert(array != nullptr);
+
+            if (right - left <= 1) { // 少于等于一个元素直接返回
+                return 0;
+            }
+
+            // 取随机一位放在left位置作为参考值
+            long p = random() % (right - left) + left;
+            swap(array[p], array[left]);
+
+            T v = array[left]; // 认定此处的值为中间值进行分割
+
+            // 对于less: array[left..i] <= v,  array[j..right) >= v
+            // 对于重复率很高的数组,平衡两边的v的数量
+            int i = left + 1, j = right - 1;
+            while (true) {
+                while (i < right && compare(array[i], v)) i++;  // 对于less, 过滤小于v的
+                while (j > left && !compare(array[j], v) && (array[j] != v)) j--; // 对于less, 过滤大于v, 此处不包含v
+
+                if (i > j) break;
+                // 交换元素, 然后移动index
+                if (array[i] != array[j]) {
+                    swap(array[i], array[j]);
+                }
+                i++;
+                j--;
+            }
+
+            swap(array[left], array[j]);
+
+            return j;
+        }
+
+
+        /**
+         * 内部,快速排序. 边界范围 [left,right)
+         * @tparam T
+         * @param array
+         * @param left
+         * @param right
+         * @param compare
+         */
+        template<typename T>
+        static void quickSortInner2(T array[], int left, int right, bool (*compare)(T &, T &) = SortAlgorithm::less) {
+            assert(array != nullptr);
+            if (right - left <= 1) { // 少于等于一个元素直接返回
+                return;
+            }
+
+            // 小于16,使用插入排序进行优化
+            if (right - left <= 16) {
+                SortAlgorithm::InsertionSort::insertionSortWithRange(array, left, right, compare);
+                return;
+            }
+
+            int pos = partition2(array, left, right, compare); // 分割,返回分割的position
+            quickSortInner2(array, left, pos, compare);  // 对左部分进行快排
+            quickSortInner2(array, pos + 1, right, compare); // 对右部分进行快排
+        }
+
     public:
         // 快速排序
         template<typename T>
@@ -88,6 +154,16 @@ namespace SortAlgorithm{
             srand(time(NULL));
             quickSortInner(array, 0, length, compare);
         }
+
+        template<typename T>
+        static void quickSort2(T array[], int length, bool (*compare)(T &, T &) = SortAlgorithm::less) {
+            assert(array != nullptr);
+            assert(length > 0);
+
+            srand(time(NULL));
+            quickSortInner2(array, 0, length, compare);
+        }
+
 
     };
 

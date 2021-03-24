@@ -59,6 +59,24 @@ namespace SortAlgorithm{
             }
         }
 
+        // 对array[left...right)范围的数组进行插入排序
+        // compare : less 升序, more 降序
+        template<typename T>
+        static void insertionSortWithRange(T array[], int left, int right,
+                                    bool (*compare)(T &one, T &another) = SortAlgorithm::less) {
+            assert(array != nullptr);
+            assert(left <= right);
+
+            for (int i = left + 1; i < right; i++) {
+                T e = array[i];
+                int j = i;
+                for (; j > left && compare(e, array[j - 1]); j--) {
+                    array[j] = array[j - 1];
+                }
+                array[j] = e;
+            }
+        }
+
     };
 
 }

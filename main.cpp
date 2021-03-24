@@ -9,7 +9,7 @@
 int main() {
 
     int length = 1000000;
-    int* arr = SortTestUtils::generateRandomArray(length, 0, 1000);
+    int* arr = SortTestUtils::generateRandomArray(length, 0, 10);
     int *arrCopy = SortTestUtils::copyIntArray(arr, length);
     //int *nearlyOrderedArray = SortTestUtils::generateNearlyOrderedArray(length, 1000);
     //int *nearlyOrderedArrayCopy = SortTestUtils::copyIntArray(nearlyOrderedArray, length);
@@ -26,10 +26,12 @@ int main() {
     SortTestUtils::calculateSort("mergeSortWithForLoop", arr, length,
                                  SortAlgorithm::MergeSort::mergeSortWithForLoop);
 
-    SortTestUtils::calculateSort("quickSort", arrCopy, length, SortAlgorithm::QuickSort::quickSort);
+   // SortTestUtils::calculateSort("quickSort", arr, length, SortAlgorithm::QuickSort::quickSort);
+    SortTestUtils::calculateSort("quickSort2", arrCopy, length, SortAlgorithm::QuickSort::quickSort2);
 
+   // SortTestUtils::calculateSort("quickSort", arrCopy, length, quickSort);
 
-    //SortTestUtils::printArray(nearlyOrderedArrayCopy, length);
+   // SortTestUtils::printArray(arrCopy, length);
     //delete[] arr;
     //delete[] arrCopy;
    // delete[]nearlyOrderedArray;
