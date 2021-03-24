@@ -8,9 +8,9 @@
 #include "SortAlgorithm.h"
 #include "InsertionSort.h"
 
-namespace SortAlgorithm{
+namespace SortAlgorithm {
 
-    class QuickSort{
+    class QuickSort {
 
     private:
         /**
@@ -24,7 +24,7 @@ namespace SortAlgorithm{
          * @return
          */
         template<typename T>
-        static int partition(T array[], int left, int right, bool (*compare)(T &, T &) = SortAlgorithm::less){
+        static int partition(T array[], int left, int right, bool (*compare)(T &, T &) = SortAlgorithm::less) {
             assert(left <= right);
             assert(array != nullptr);
 
@@ -82,7 +82,7 @@ namespace SortAlgorithm{
         // 进行分割,返回分割点pos
         // 对重复的元素v尽量均匀分散到左右2个子数组
         template<typename T>
-        static int partition2(T array[], int left, int right, bool (*compare)(T &, T &) = SortAlgorithm::less){
+        static int partition2(T array[], int left, int right, bool (*compare)(T &, T &) = SortAlgorithm::less) {
             assert(left <= right);
             assert(array != nullptr);
 
@@ -144,6 +144,52 @@ namespace SortAlgorithm{
             quickSortInner2(array, pos + 1, right, compare); // 对右部分进行快排
         }
 
+        // 对 array[left,right) 的数组进行3路快速排序
+        // 将数组分为 >V , =V , <V 进行排序
+        template<typename T>
+        static void
+        quickSort3WaysInner(T array[], int left, int right, bool (*compare)(T &, T &) = SortAlgorithm::less) {
+            assert(array != nullptr);
+
+            if (right - left <= 1) {
+                return;
+            }
+
+            // 取随机一位做分割点
+            swap(array[left], array[random() % (right - left) + left]);
+            T v = array[left];
+
+            // partition
+            int lt = left; // 对于less : array(left...lt] < v
+            int pos = lt + 1; // array(lt+1...pos) = v
+            int gt = right; // 对于less : array[gt,right) > v
+            while (true) {
+                if (pos >= gt) {
+                    break;
+                }
+
+                if (array[pos] == v) { // 等于v直接后移一位
+                    pos++;
+                } else if (compare(array[pos], v)) {
+                    ++lt;
+                    if (lt != pos) { // 相同index,直接跳过
+                        swap(array[lt], array[pos]); // 此处两个index都移动
+                    }
+                    ++pos;
+                } else {
+                    swap(array[--gt], array[pos]);  // 此处只需移动gt
+                }
+            }
+
+            // 将第一个元素与lt交换, 交换后lt是第一个等于v的元素,gt-1 是最后一个等于v的元素
+            // 即 array[lt,gt) = v
+            swap(array[left], array[lt]);
+
+            // 对不等于v的2部分 array[left,lt) 和 array[gt,right) 再进行排序
+            quickSort3WaysInner(array, left, lt);
+            quickSort3WaysInner(array, gt, right);
+        }
+
     public:
         // 快速排序
         template<typename T>
@@ -164,6 +210,15 @@ namespace SortAlgorithm{
             quickSortInner2(array, 0, length, compare);
         }
 
+        // 三路快速排序
+        template<typename T>
+        static void quickSort3Ways(T array[], int length, bool (*compare)(T &, T &) = SortAlgorithm::less) {
+            assert(array != nullptr);
+            assert(length > 0);
+
+            srand(time(NULL)); // 随机数种子
+            quickSort3WaysInner(array, 0, length, compare);
+        }
 
     };
 
