@@ -12,6 +12,7 @@
 #include "SelectionSort.h"
 #include "InsertionSort.h"
 #include "MergeSort.h"
+#include "MaxHeap.h"
 
 
 class Tester{
@@ -89,6 +90,24 @@ public:
         SortTestUtils::calculateSort("quickSort", nearlyOrderedArray, length, SortAlgorithm::QuickSort::quickSort);
         SortTestUtils::calculateSort("quickSort2", nearlyOrderedArrayCopy, length, SortAlgorithm::QuickSort::quickSort2);
         SortTestUtils::calculateSort("quickSort3Ways", nearlyOrderedArrayCopy2, length, SortAlgorithm::QuickSort::quickSort3Ways);
+    }
+
+    static void testMaxHeap(){
+        SortAlgorithm::MaxHeap<int> maxHeap(10);
+        maxHeap.insert(6);
+        maxHeap.insert(3);
+        maxHeap.insert(8);
+        maxHeap.insert(9);
+        maxHeap.insert(7);
+        maxHeap.insert(16);
+        maxHeap.insert(32);
+        maxHeap.insert(85);
+        maxHeap.insert(19);
+        maxHeap.insert(199);
+        maxHeap.insert(119);
+        maxHeap.insert(27);
+
+        maxHeap.print();
     }
 
 };

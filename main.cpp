@@ -10,7 +10,8 @@ int main() {
     //Tester::testSelectionSort(length);
     //Tester::testInsertionSort(length);
     //Tester::testMergeSort(length);
-    Tester::testQuickSort(length);
+    //Tester::testQuickSort(length);
+    Tester::testMaxHeap();
 
     return 0;
 }
