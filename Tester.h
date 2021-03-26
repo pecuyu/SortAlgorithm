@@ -108,6 +108,12 @@ public:
         maxHeap.insert(27);
 
         maxHeap.print();
+
+        while (maxHeap.size() > 0) {
+            int max = maxHeap.extractMax();
+            cout << max << " ";
+        }
+        cout << endl;
     }
 
 };
