@@ -24,7 +24,7 @@ namespace SortAlgorithm {
          * @return
          */
         template<typename T>
-        static int partition(T array[], int left, int right, bool (*compare)(T &, T &) = SortAlgorithm::less) {
+        static int partition(T array[], int left, int right, Compare<T> compare = SortAlgorithm::less) {
             assert(left <= right);
             assert(array != nullptr);
 
@@ -68,7 +68,7 @@ namespace SortAlgorithm {
          * @param compare
          */
         template<typename T>
-        static void quickSortInner(T array[], int left, int right, bool (*compare)(T &, T &) = SortAlgorithm::less) {
+        static void quickSortInner(T array[], int left, int right, Compare<T> compare = SortAlgorithm::less) {
             assert(array != nullptr);
             if (right - left <= 1) { // 少于等于一个元素直接返回
                 return;
@@ -82,7 +82,7 @@ namespace SortAlgorithm {
         // 进行分割,返回分割点pos
         // 对重复的元素v尽量均匀分散到左右2个子数组
         template<typename T>
-        static int partition2(T array[], int left, int right, bool (*compare)(T &, T &) = SortAlgorithm::less) {
+        static int partition2(T array[], int left, int right, Compare<T> compare = SortAlgorithm::less) {
             assert(left <= right);
             assert(array != nullptr);
 
@@ -127,7 +127,7 @@ namespace SortAlgorithm {
          * @param compare
          */
         template<typename T>
-        static void quickSortInner2(T array[], int left, int right, bool (*compare)(T &, T &) = SortAlgorithm::less) {
+        static void quickSortInner2(T array[], int left, int right, Compare<T> compare = SortAlgorithm::less) {
             assert(array != nullptr);
             if (right - left <= 1) { // 少于等于一个元素直接返回
                 return;
@@ -148,7 +148,7 @@ namespace SortAlgorithm {
         // 将数组分为 >V , =V , <V 进行排序
         template<typename T>
         static void
-        quickSort3WaysInner(T array[], int left, int right, bool (*compare)(T &, T &) = SortAlgorithm::less) {
+        quickSort3WaysInner(T array[], int left, int right, Compare<T> compare = SortAlgorithm::less) {
             assert(array != nullptr);
 
             if (right - left <= 1) {
@@ -193,7 +193,7 @@ namespace SortAlgorithm {
     public:
         // 快速排序
         template<typename T>
-        static void quickSort(T array[], int length, bool (*compare)(T &, T &) = SortAlgorithm::less) {
+        static void quickSort(T array[], int length, Compare<T> compare = SortAlgorithm::less) {
             assert(array != nullptr);
             assert(length > 0);
 
@@ -202,7 +202,7 @@ namespace SortAlgorithm {
         }
 
         template<typename T>
-        static void quickSort2(T array[], int length, bool (*compare)(T &, T &) = SortAlgorithm::less) {
+        static void quickSort2(T array[], int length, Compare<T> compare = SortAlgorithm::less) {
             assert(array != nullptr);
             assert(length > 0);
 
@@ -212,7 +212,7 @@ namespace SortAlgorithm {
 
         // 三路快速排序
         template<typename T>
-        static void quickSort3Ways(T array[], int length, bool (*compare)(T &, T &) = SortAlgorithm::less) {
+        static void quickSort3Ways(T array[], int length, Compare<T> compare = SortAlgorithm::less) {
             assert(array != nullptr);
             assert(length > 0);
 

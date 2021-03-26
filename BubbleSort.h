@@ -20,7 +20,7 @@ namespace SortAlgorithm{
          */
         template<typename T>
         static void bubbleSort(T array[], int length,
-                        bool (*compare)(T &one, T &another) = SortAlgorithm::less) {
+                        Compare<T> compare = SortAlgorithm::less) {
             assert(array != nullptr);
             assert(length > 0);
 

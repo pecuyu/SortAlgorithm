@@ -19,7 +19,7 @@ namespace SortAlgorithm{
          * @param compare
          */
         template<typename T>
-        static void insertionSort(T array[], int length, bool (*compare)(T &one, T &another) = SortAlgorithm::less){
+        static void insertionSort(T array[], int length, Compare<T> compare = SortAlgorithm::less){
             assert(array != nullptr);
             assert(length > 0);
 
@@ -40,7 +40,7 @@ namespace SortAlgorithm{
          * @param compare
          */
         template<typename T>
-        static void insertionSortOptimize(T array[], int length, bool (*compare)(T &one, T &another) = SortAlgorithm::less){
+        static void insertionSortOptimize(T array[], int length, Compare<T> compare = SortAlgorithm::less){
             assert(array != nullptr);
             assert(length > 0);
 
@@ -63,7 +63,7 @@ namespace SortAlgorithm{
         // compare : less 升序, more 降序
         template<typename T>
         static void insertionSortWithRange(T array[], int left, int right,
-                                    bool (*compare)(T &one, T &another) = SortAlgorithm::less) {
+                                    Compare<T> compare = SortAlgorithm::less) {
             assert(array != nullptr);
             assert(left <= right);
 

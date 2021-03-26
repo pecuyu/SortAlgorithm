@@ -21,7 +21,7 @@ namespace SortAlgorithm{
          * @param compare
          */
         template<typename T>
-        static void mergeInner(T array[], int left, int middle, int right, bool (*compare)(T &, T &) = SortAlgorithm::less){
+        static void mergeInner(T array[], int left, int middle, int right, Compare<T> compare = SortAlgorithm::less){
             if (left >= right) {
                 return;
             }
@@ -60,7 +60,7 @@ namespace SortAlgorithm{
          * @param compare
          */
         template <typename T>
-        static void mergeSortInner(T array[],int left, int right,bool (*compare)(T &, T &) = SortAlgorithm::less){
+        static void mergeSortInner(T array[],int left, int right,Compare<T> compare = SortAlgorithm::less){
             if (right - left <= 1) { // 只有一个元素,视作已经有序,直接返回
                 return;
             }
@@ -85,7 +85,7 @@ namespace SortAlgorithm{
          * @param compare
          */
         template<typename T>
-        static void mergeSort(T array[], int length, bool (*compare)(T &, T &) = SortAlgorithm::less){
+        static void mergeSort(T array[], int length, Compare<T> compare = SortAlgorithm::less){
             // 调用内部的merge 函数
             mergeSortInner(array, 0, length, compare);
         }
@@ -100,7 +100,7 @@ namespace SortAlgorithm{
          * @param compare
          */
         template<typename T>
-        static void mergeSortWithForLoop(T array[], int length, bool (*compare)(T &, T &) = SortAlgorithm::less) {
+        static void mergeSortWithForLoop(T array[], int length, Compare<T> compare = SortAlgorithm::less) {
             assert(array != nullptr);
             assert(length > 0);
 

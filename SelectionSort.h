@@ -20,7 +20,7 @@ namespace SortAlgorithm{
          */
         template<typename T>
         static void selectionSort(T *array, int length,
-                           bool(*compare)(T &one, T &another) = SortAlgorithm::less/* 默认比较函数*/) {
+                           Compare<T> compare = SortAlgorithm::less/* 默认比较函数*/) {
             assert(array != nullptr);
             assert(length > 0);
 

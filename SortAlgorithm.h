@@ -29,6 +29,11 @@ namespace SortAlgorithm {
         return one > another;
     }
 
+    /**
+     * Compare 函数指针模板
+     */
+    template<typename T>
+    using Compare = bool (*)(T &, T &);
 
 }
 
