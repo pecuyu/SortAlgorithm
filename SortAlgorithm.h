@@ -9,6 +9,10 @@
 #include "cassert"
 #include "algorithm"
 #include "ctime"
+#include <iostream>
+
+using std::cout;
+using std::endl;
 
 namespace SortAlgorithm {
 

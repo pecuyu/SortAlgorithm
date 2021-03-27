@@ -9,7 +9,9 @@
 #include <cassert>
 #include <cstdlib>
 #include <ctime>
+#include "Algorithms.h"
 
+using namespace SortAlgorithm;
 using namespace std;
 
 namespace SortTestUtils{
@@ -115,8 +117,8 @@ namespace SortTestUtils{
      */
     template<typename T>
     void calculateSort(const string& sortName, T array[],int length,
-                       void (*sort)(T[], int length, bool(*compare)(T &one, T &another)),
-                       bool(*compare)(T &one, T &another) = SortAlgorithm::less)
+                       void (*sort)(T[], int length,Compare<T>),
+                       Compare<T> compare = SortAlgorithm::less)
     {
         clock_t startTime = clock();
         sort(array, length,compare);
@@ -125,6 +127,19 @@ namespace SortTestUtils{
         assert(isSorted(array,length)); // 判断排序是否成功
 
         cout << sortName << " wastes " << double (endTime - startTime) / CLOCKS_PER_SEC <<"s"<< endl;
+    }
+
+    template<typename T>
+    void calculateSort(const string &sortName, T array[], int length,
+                       void (*sort)(T[], int /*length*/, bool /*asc*/), bool asc = true) {
+
+        clock_t startTime = clock();
+        sort(array, length, asc);
+        clock_t endTime = clock();
+
+        assert(isSorted(array, length)); // 判断排序是否成功
+
+        cout << sortName << " wastes " << double(endTime - startTime) / CLOCKS_PER_SEC << "s" << endl;
     }
 
 }

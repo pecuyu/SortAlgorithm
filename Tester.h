@@ -5,13 +5,8 @@
 #ifndef SORTALGORITHM_TESTER_H
 #define SORTALGORITHM_TESTER_H
 
-#include "SortAlgorithm.h"
 #include "SortTestUtils.h"
-#include "QuickSort.h"
-#include "BubbleSort.h"
-#include "SelectionSort.h"
-#include "InsertionSort.h"
-#include "MergeSort.h"
+#include "Algorithms.h"
 #include "MaxHeap.h"
 
 
@@ -90,6 +85,10 @@ public:
         SortTestUtils::calculateSort("quickSort", nearlyOrderedArray, length, SortAlgorithm::QuickSort::quickSort);
         SortTestUtils::calculateSort("quickSort2", nearlyOrderedArrayCopy, length, SortAlgorithm::QuickSort::quickSort2);
         SortTestUtils::calculateSort("quickSort3Ways", nearlyOrderedArrayCopy2, length, SortAlgorithm::QuickSort::quickSort3Ways);
+
+        delete[] nearlyOrderedArray;
+        delete[] nearlyOrderedArrayCopy;
+        delete[] nearlyOrderedArrayCopy2;
     }
 
     static void testMaxHeap(){
@@ -114,6 +113,18 @@ public:
             cout << max << " ";
         }
         cout << endl;
+    }
+
+    static void testHeapSort(int length){
+        // 生产随机数组
+        int* array = SortTestUtils::generateRandomArray(length, 0, 9999999);
+        int *arrayCopy = SortTestUtils::copyIntArray(array, length);
+        SortTestUtils::calculateSort("heapSort", array, length, SortAlgorithm::HeapSort::heapSort,false);
+        SortTestUtils::calculateSort("quickSort3Ways", arrayCopy, length, SortAlgorithm::QuickSort::quickSort3Ways);
+
+        //SortTestUtils::printArray(array, length);
+        delete[] array;
+        delete[] arrayCopy;
     }
 
 };

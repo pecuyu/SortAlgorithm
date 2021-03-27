@@ -5,7 +5,6 @@
 #ifndef SORTALGORITHM_MAXHEAP_H
 #define SORTALGORITHM_MAXHEAP_H
 
-#include <iostream>
 #include "SortAlgorithm.h"
 
 namespace SortAlgorithm{
