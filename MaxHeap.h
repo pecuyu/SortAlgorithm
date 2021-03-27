@@ -52,6 +52,33 @@ namespace SortAlgorithm{
             }
         }
 
+        // pos处开始,从底到顶调整最大堆
+        // 减少swap, 提升效率
+        void shiftUpNoSwap(int pos) {
+            if (pos <= 1) {
+                return;
+            }
+
+            int prevPos = pos;
+            Node target = nodes[pos];
+            int parentPos;
+            while (true) {
+                parentPos = pos / 2;
+                // 若父节点大于当前,则位置已满足
+                if (parentPos < 1 || nodes[parentPos] >= target) {
+                    break;
+                }
+
+                nodes[pos] = nodes[parentPos]; // 移动父节点到当前
+                pos = parentPos;
+            }
+
+            if (prevPos != pos) {
+                nodes[pos] = target;
+            }
+        }
+
+
         // pos处开始,从顶到底调整最大堆
         void shiftDown(int pos) {
             while (true) {
@@ -80,6 +107,75 @@ namespace SortAlgorithm{
                 pos = newPos;
             }
         }
+
+        // pos处开始,从顶到底调整最大堆
+        // 减少swap, 提升效率
+        void shiftDownNoSwap(int pos) {
+            if (pos >= _size) {
+                return;
+            }
+
+            int prevPos = pos;
+            Node target = nodes[pos];
+            int left;
+            int right;
+            int newPos; // 新要调整的位置,默认为pos
+            bool hasBiggerChild = false;
+
+            while (true) {
+                if (pos >= _size) {
+                    break;
+                }
+
+                // 左右节点索引
+                left = pos * 2;
+                right = left + 1;
+                newPos = pos; // 新要调整的位置,默认为pos
+                hasBiggerChild = false;
+                // 判断左右节点节点是否有大于当前target处, 记录newPos
+                /*if (right <= _size) { // 说明有2个child
+                    bool leftBigger = nodes[left] > nodes[right];
+                    if (leftBigger) {
+                        if (nodes[left] > target) {
+                            newPos = left;
+                        }
+                    } else if (nodes[right] > target) {
+                        newPos = right;
+                    }
+                } else if (left <= _size) { // 有左节点
+                    if (nodes[left] > target) {
+                        newPos = left;
+                    }
+                } else { // 无子节点
+                    break;
+                }*/ // 上面注释掉的与下面两个比较功能类似
+
+                if (left <= _size && nodes[left] > target) { // 如果newPos处小于左节点
+                    hasBiggerChild = true;
+                    newPos = left;
+                }
+
+                // 如果发现左节点大于target, 此时比较的时左右节点谁大. 否则判断右节点与target
+                if (right <= _size && (hasBiggerChild ? // 此处说明left是否大于target
+                            (nodes[right] > nodes[left]) :  // 若大于target,此时判断左右子节点谁大
+                            (nodes[right] > target) /* 否则比较右节点和target的大小 */  )) {
+                    //  如果newPos处小于右节点
+                    newPos = right; // 更新位置为 right
+                }
+
+                if (newPos == pos) { // pos没变,说明此时已满足
+                    break;
+                }
+
+                nodes[pos] = nodes[newPos]; // 将子节点移动到父节点位置
+                pos = newPos;
+            }
+
+            if (prevPos != pos) {
+                nodes[pos] = target;
+            }
+        }
+
 
         /**
          * 确保容量满足要求
@@ -116,7 +212,7 @@ namespace SortAlgorithm{
             }
             nodes[index] = node;
             // 从底到顶调整节点位置
-            shiftUp(_size);
+            shiftUpNoSwap(_size);
 
             return true;
         }
@@ -137,7 +233,7 @@ namespace SortAlgorithm{
             }
             --_size; // 元素个数递减
 
-            shiftDown(1); // 重新调整最大堆
+            shiftDownNoSwap(1); // 重新调整最大堆
 
             return max;
         }
