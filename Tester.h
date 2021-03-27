@@ -119,12 +119,15 @@ public:
         // 生产随机数组
         int* array = SortTestUtils::generateRandomArray(length, 0, 9999999);
         int *arrayCopy = SortTestUtils::copyIntArray(array, length);
+        int *arrayCopy2 = SortTestUtils::copyIntArray(array, length);
         SortTestUtils::calculateSort("heapSort", array, length, SortAlgorithm::HeapSort::heapSort,false);
+        SortTestUtils::calculateSort("heapSort2", array, length, SortAlgorithm::HeapSort::heapSort2,false);
         SortTestUtils::calculateSort("quickSort3Ways", arrayCopy, length, SortAlgorithm::QuickSort::quickSort3Ways);
 
         //SortTestUtils::printArray(array, length);
         delete[] array;
         delete[] arrayCopy;
+        delete[] arrayCopy2;
     }
 
 };

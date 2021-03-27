@@ -30,6 +30,21 @@ namespace SortAlgorithm{
             this->nodes = new Node[this->capacity];
         }
 
+        MaxHeap(Node array[], int length) { // 通过array构造一个最大堆
+            this->capacity = length + 1;
+            nodes = new Node[this->capacity];
+            for (int i = 0; i < length; ++i) {
+                nodes[i + 1] = array[i];
+            }
+            _size = length;
+
+            // 对所有不满足最大堆要求的元素进行shiftDown操作,
+            // 调整二叉树以满足最大堆要求
+            for (int i = _size / 2; i > 0; --i) {
+                shiftDownNoSwap(i);
+            }
+        }
+
         int size() {
             return this->_size;
         }

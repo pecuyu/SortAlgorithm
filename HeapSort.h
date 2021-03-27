@@ -36,6 +36,20 @@ namespace SortAlgorithm {
                 array[asc ? (length - 1 - i) : i] = max;
             }
         }
+
+        template<typename T>
+        static void heapSort2(T array[], int length, bool asc) {
+            assert(array != nullptr);
+            assert(length > 0);
+
+            // 通过数组构造一个最大堆
+            MaxHeap<T> maxHeap(array, length);
+            // 依次取出最大堆的最大元素重新写回原数组
+            for (int i = 0; i < length; ++i) {
+                T max = maxHeap.extractMax();
+                array[asc ? (length - 1 - i) : i] = max;
+            }
+        }
     };
     
 }
