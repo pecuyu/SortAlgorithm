@@ -19,20 +19,22 @@ namespace SortAlgorithm{
     template<typename Node>
     class MaxHeap {
     private:
-        Node* nodes; // 元素集, index从1开始
+        Node* nodes; // 元素集, index从1开始到_size, 第0位不用
         int _size; // 实际元素个数
-        int capacity; // 实际最大容量 >=_size
+        int _capacity; // 实际最大容量(nodes长度) >=_size+1 , 每次容量不足递增2倍
+
+        int availableSize() const { return _capacity > 1 ? _capacity - 1 : 0; }
 
     public:
         MaxHeap(int capacity) {
-            this->capacity = capacity + 1; // 元素index从1开始,多分配一位
+            this->_capacity = capacity + 1; // 元素index从1开始,多分配一位
             this->_size = 0;
-            this->nodes = new Node[this->capacity];
+            this->nodes = new Node[this->_capacity];
         }
 
         MaxHeap(Node array[], int length) { // 通过array构造一个最大堆
-            this->capacity = length + 1;
-            nodes = new Node[this->capacity];
+            this->_capacity = length + 1;
+            nodes = new Node[this->_capacity];
             for (int i = 0; i < length; ++i) {
                 nodes[i + 1] = array[i];
             }
@@ -196,23 +198,24 @@ namespace SortAlgorithm{
          * 确保容量满足要求
          */
         void ensureCapacity() {
-            if (_size < capacity) {
+            if (_size < availableSize()) {
                 std::cout << __func__ << " : no need extend!" << std::endl;
                 return;
             }
             std::cout << __func__ << " : extend capacity!" << std::endl;
 
             // extend capacity
-            int newCapacity = capacity * 2;
+            int newCapacity = _capacity * 2;
             Node *newNodes = new Node[newCapacity];
             for (int i = 1; i <= _size; ++i) {
                 newNodes[i] = nodes[i];
             }
 
             delete[] nodes;
-            capacity = newCapacity;
+            _capacity = newCapacity;
             nodes = newNodes;
         }
+
 
         /**
          *  插入元素
@@ -222,7 +225,7 @@ namespace SortAlgorithm{
         bool insert(Node node) {
             // 添加到最后位置
             int index = ++_size;
-            if (index > capacity) {
+            if (index > availableSize()) {
                 ensureCapacity();
             }
             nodes[index] = node;
@@ -254,7 +257,7 @@ namespace SortAlgorithm{
         }
 
         void print() {
-            cout << "size=" << size() << " ,capacity=" << capacity << endl;
+            cout << "size=" << size() << " ,capacity=" << _capacity << endl;
 
             for (int i = 1; i <= _size; ++i) {
                 std::cout << nodes[i] << " ";
