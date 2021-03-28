@@ -50,7 +50,35 @@ namespace SortAlgorithm {
                 array[asc ? (length - 1 - i) : i] = max;
             }
         }
+
+        /**
+         * 原地堆排序
+         * @tparam T
+         * @param array
+         * @param length
+         * @param asc
+         */
+        template<typename T>
+        static void heapSort3(T array[], int length, bool asc) {
+            // 将数组堆化 heapify
+            for (int i = (length - 1) / 2; i >= 0; --i) {
+                MaxHeap<T>::shiftDown(array, i, length);
+            }
+
+            // 排序
+            for (int i = 0; i < length; ++i) {
+                swap(array[0], array[length - 1 - i]);
+                MaxHeap<T>::shiftDown(array, 0, length - 1 - i);
+            }
+
+            // 处理逆序
+            if (!asc) {
+                for (int i = 0; i < length / 2; ++i) {
+                    swap(array[i], array[length - 1 - i]);
+                }
+            }
+        }
     };
-    
+
 }
 #endif //SORTALGORITHM_HEAPSORT_H

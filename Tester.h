@@ -117,17 +117,21 @@ public:
 
     static void testHeapSort(int length){
         // 生产随机数组
-        int* array = SortTestUtils::generateRandomArray(length, 0, 9999999);
+        int* array = SortTestUtils::generateRandomArray(length, 0, 9999);
         int *arrayCopy = SortTestUtils::copyIntArray(array, length);
         int *arrayCopy2 = SortTestUtils::copyIntArray(array, length);
+        int *arrayCopy3 = SortTestUtils::copyIntArray(array, length);
         SortTestUtils::calculateSort("heapSort", array, length, SortAlgorithm::HeapSort::heapSort,false);
-        SortTestUtils::calculateSort("heapSort2", array, length, SortAlgorithm::HeapSort::heapSort2,false);
-        SortTestUtils::calculateSort("quickSort3Ways", arrayCopy, length, SortAlgorithm::QuickSort::quickSort3Ways);
+        SortTestUtils::calculateSort("heapSort2", arrayCopy, length, SortAlgorithm::HeapSort::heapSort2,false);
+        SortTestUtils::calculateSort("heapSort3", arrayCopy2, length, SortAlgorithm::HeapSort::heapSort3, false);
+        SortTestUtils::calculateSort("quickSort3Ways", arrayCopy3, length, SortAlgorithm::QuickSort::quickSort3Ways);
 
-        //SortTestUtils::printArray(array, length);
+        //SortTestUtils::printArray(arrayCopy2, length);
+
         delete[] array;
         delete[] arrayCopy;
         delete[] arrayCopy2;
+        delete[] arrayCopy3;
     }
 
 };

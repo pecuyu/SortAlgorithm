@@ -193,6 +193,42 @@ namespace SortAlgorithm{
             }
         }
 
+         /**
+          * pos处开始,从顶到底调整最大堆
+          * @tparam T
+          * @param array
+          * @param pos 从当前位置开始调节最大堆
+          * @param length array长度(调整堆的长度)
+          */
+        static void shiftDown(Node array[], int pos, int length) {
+             assert(array != nullptr);
+             assert(length > pos >= 0);
+
+             Node target = array[pos];
+             int left = pos * 2 + 1;
+             int right = left + 1;
+             int newPos;
+
+             while (left < length) { // 至少有一个左元素才继续
+                 newPos = left;
+                 // 如果存在左右节点,让两者比较得出最大值
+                 if (right < length && array[right] > array[left]) {
+                     newPos = right;
+                 }
+
+                 // 让当前的target和左右节点最大值进行比较
+                 if (target >= array[newPos]) {
+                     break; // 比两者都大,跳出循环
+                 }
+
+                 array[pos] = array[newPos]; // 元素上移一位
+                 pos = newPos;
+                 left = pos * 2 + 1;
+                 right = left + 1;
+             }
+
+             array[pos] = target;
+        }
 
         /**
          * 确保容量满足要求
