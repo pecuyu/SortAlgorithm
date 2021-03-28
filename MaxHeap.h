@@ -47,6 +47,10 @@ namespace SortAlgorithm{
             }
         }
 
+        ~MaxHeap(){
+            delete[] nodes;
+        }
+
         int size() {
             return this->_size;
         }
