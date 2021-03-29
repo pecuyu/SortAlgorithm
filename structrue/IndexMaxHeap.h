@@ -1,0 +1,308 @@
+//
+// Created by pecuyu on 2021/3/29.
+//
+
+#ifndef SORTALGORITHM_INDEXMAXHEAP_H
+#define SORTALGORITHM_INDEXMAXHEAP_H
+
+#include "../SortAlgorithm.h"
+
+namespace SortAlgorithm {
+    /**
+     *  索引最大堆, 父节点的元素始终保持 >= 子元素
+     *  存储的元素从index=1开始 , 因此假若父节点的索引为pos, 则:
+     *      左节点的index 为 2*pos
+     *      有节点的index 为 2*pos + 1
+     *
+     *  indexs中的元素值表示 最大堆中nodes中元素的索引
+     *  比较的时候使用原数组的元素 , 交换的时候使用的是indexs中的索引
+     *
+     * @tparam Node
+     */
+    template<typename Node>
+    class IndexMaxHeap {
+    private:
+        Node* nodes; // 元素集, index从1开始到_size, 第0位不用
+        int _size; // 实际元素个数
+        int _capacity; // 实际最大容量(nodes长度) >=_size+1 , 每次容量不足递增2倍
+        int* indexs;  // 索引堆, index的值表示在 nodes 数组的位置
+        int availableSize() const { return _capacity > 1 ? _capacity - 1 : 0; }
+
+    public:
+        IndexMaxHeap(int capacity) {
+            this->_capacity = capacity + 1; // 元素index从1开始,多分配一位
+            this->_size = 0;
+            this->nodes = new Node[this->_capacity];
+            this->indexs = new int[this->_capacity];
+        }
+
+        IndexMaxHeap(Node array[], int length) { // 通过array构造一个最大堆
+            this->_capacity = length + 1;
+            nodes = new Node[this->_capacity];
+            indexs = new int[this->_capacity];
+            for (int i = 0; i < length; ++i) {
+                nodes[i + 1] = array[i];
+                indexs[i + 1] = i + 1;
+            }
+            _size = length;
+
+            // 对所有不满足最大堆要求的元素进行shiftDown操作,
+            // 调整二叉树以满足最大堆要求
+            for (int i = _size / 2; i > 0; --i) {
+                shiftDownNoSwap(i);
+            }
+        }
+
+        ~IndexMaxHeap(){
+            delete[] nodes;
+            delete[] indexs;
+        }
+
+        int size() {
+            return this->_size;
+        }
+
+        bool empty() {
+            return _size == 0;
+        }
+
+        // pos处开始,从底到顶调整最大堆
+        void shiftUp(int pos) {
+            while (true) {
+                int parentPos = pos / 2;
+                // 若父节点大于当前,则位置已满足
+                if (parentPos < 1 || nodes[indexs[parentPos]] >= nodes[indexs[pos]]) {
+                    break;
+                }
+
+                swap(indexs[pos],indexs[parentPos]);
+                pos = parentPos;
+            }
+        }
+
+        // pos处开始,从底到顶调整最大堆
+        // 减少swap, 提升效率
+        void shiftUpNoSwap(int pos) {
+            if (pos <= 1) {
+                return;
+            }
+
+            int prevNodePos = indexs[pos];
+            Node target = nodes[prevNodePos];
+            int parentPos;
+            while (true) {
+                parentPos = pos / 2;
+                // 若父节点大于当前,则位置已满足
+                if (parentPos < 1 || nodes[indexs[parentPos]] >= target) {
+                    break;
+                }
+
+                indexs[pos] = indexs[parentPos]; // 移动父节点到当前
+                pos = parentPos;
+            }
+
+            indexs[pos] = prevNodePos;
+        }
+
+
+        // pos处开始,从顶到底调整最大堆
+        void shiftDown(int pos) {
+            while (true) {
+                if (pos >= _size) {
+                    break;
+                }
+
+                // 左右节点索引
+                int left = pos * 2;
+                int right = left + 1;
+                int newPos = pos; // 新要调整的位置,默认为pos
+                // 判断左右节点节点是否有大于当前pos处
+                if (left <= _size && nodes[indexs[left]] > nodes[indexs[newPos]]) { // 如果newPos处小于左节点
+                    newPos = left; // 更新位置为 left
+                }
+
+                if (right <= _size && nodes[indexs[right]] > nodes[indexs[newPos]]) { //  如果newPos处小于右节点
+                    newPos = right; // 更新位置为 right
+                }
+
+                if (newPos == pos) { // pos没变,说明此时已满足
+                    break;
+                }
+
+                swap(indexs[newPos], indexs[pos]);
+                pos = newPos;
+            }
+        }
+
+        // pos处开始,从顶到底调整最大堆
+        // 减少swap, 提升效率
+        void shiftDownNoSwap(int pos) {
+            if (pos >= _size) {
+                return;
+            }
+
+            int prevNodePos = indexs[pos];
+            Node target = nodes[prevNodePos];
+            int left;
+            int right;
+            int newPos; // 新要调整的位置,默认为pos
+
+            while (true) {
+                if (pos >= _size) {
+                    break;
+                }
+
+                // 左右节点索引
+                left = pos * 2;
+                right = left + 1;
+                newPos = left; // 新要调整的位置,默认为left
+                // 判断左右节点节点是否有大于当前target处, 记录newPos
+                if (right <= _size && nodes[indexs[right]] > nodes[indexs[left]]) {
+                    newPos = right;
+                }
+
+                if (nodes[indexs[pos]] >= nodes[indexs[newPos]]) {
+                    break;
+                }
+
+                indexs[pos] = indexs[newPos]; // 将子节点移动到父节点位置, 移动索引
+                pos = newPos;
+            }
+
+            indexs[pos] = prevNodePos;
+        }
+
+        /**
+         * pos处开始,从顶到底调整最大堆
+         * @tparam T
+         * @param array
+         * @param pos 从当前位置开始调节最大堆
+         * @param length array长度(调整堆的长度)
+         */
+        static void shiftDown(Node array[], int pos, int length) {
+            assert(array != nullptr);
+            assert(length > pos >= 0);
+
+            Node target = array[pos];
+            int left = pos * 2 + 1;
+            int right = left + 1;
+            int newPos;
+
+            while (left < length) { // 至少有一个左元素才继续
+                newPos = left;
+                // 如果存在左右节点,让两者比较得出最大值
+                if (right < length && array[right] > array[left]) {
+                    newPos = right;
+                }
+
+                // 让当前的target和左右节点最大值进行比较
+                if (target >= array[newPos]) {
+                    break; // 比两者都大,跳出循环
+                }
+
+                array[pos] = array[newPos]; // 元素上移一位
+                pos = newPos;
+                left = pos * 2 + 1;
+                right = left + 1;
+            }
+
+            array[pos] = target;
+        }
+
+        /**
+         * 确保容量满足要求
+         */
+        void ensureCapacity() {
+            if (_size < availableSize()) {
+                std::cout << __func__ << " : no need extend!" << std::endl;
+                return;
+            }
+            std::cout << __func__ << " : extend capacity!" << std::endl;
+
+            // extend capacity
+            int newCapacity = _capacity * 2;
+            Node *newNodes = new Node[newCapacity];
+            int *newIndexs = new int[newCapacity];
+            for (int i = 1; i <= _size; ++i) {
+                newNodes[i] = nodes[i];
+                newIndexs[i] = indexs[i];
+            }
+
+            _capacity = newCapacity;
+            delete[] nodes;
+            nodes = newNodes;
+            delete[] indexs;
+            indexs = newIndexs;
+        }
+
+
+        /**
+         *  插入元素
+         * @param node
+         * @return
+         */
+        bool insert(Node node) {
+            // 添加到最后位置
+            int index = ++_size;
+            if (index > availableSize()) {
+                ensureCapacity();
+            }
+            nodes[index] = node;
+            indexs[index] = index;
+            // 从底到顶调整节点位置
+            shiftUpNoSwap(_size);
+
+            return true;
+        }
+
+        /**
+         * 取出最大值
+         */
+        Node extractMax() {
+            if (empty()) {
+                return nodes[indexs[0]];
+            }
+
+            // 取出最大值
+            Node max = nodes[indexs[1]];
+            if (_size > 1) {
+                // 将最后一位,放到第一位
+                indexs[1] = indexs[_size];
+            }
+            --_size; // 元素个数递减
+
+            shiftDownNoSwap(1); // 重新调整最大堆
+
+            return max;
+        }
+
+        void printHeap() {
+            cout << "size=" << size() << " ,capacity=" << _capacity << endl;
+
+            for (int i = 1; i <= _size; ++i) {
+                std::cout << nodes[indexs[i]] << "\t";
+            }
+            std::cout << std::endl;
+        }
+
+        void printNodes(){
+            for (int i = 1; i <= _size; ++i) {
+                std::cout << nodes[i] << "\t";
+            }
+            std::cout << std::endl;
+        }
+
+        void printIndexs(){
+            for (int i = 1; i <= _size; ++i) {
+                std::cout << indexs[i] << "\t";
+            }
+            std::cout << std::endl;
+        }
+    };
+
+
+}
+
+
+
+#endif //SORTALGORITHM_INDEXMAXHEAP_H

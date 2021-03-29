@@ -12,7 +12,8 @@ int main() {
     //Tester::testMergeSort(length);
     //Tester::testQuickSort(length);
     //Tester::testMaxHeap();
-    Tester::testHeapSort(length);
+    //Tester::testHeapSort(length);
+    Tester::testIndexMapHeap();
 
     return 0;
 }

@@ -7,6 +7,7 @@
 
 #include "SortTestUtils.h"
 #include "Algorithms.h"
+#include "structrue/IndexMaxHeap.h"
 #include "structrue/MaxHeap.h"
 
 
@@ -132,6 +133,30 @@ public:
         delete[] arrayCopy;
         delete[] arrayCopy2;
         delete[] arrayCopy3;
+    }
+
+    static void testIndexMapHeap(){
+        SortAlgorithm::IndexMaxHeap<int> maxHeap(10);
+        maxHeap.insert(6);
+        maxHeap.insert(3);
+        maxHeap.insert(8);
+        maxHeap.insert(9);
+        maxHeap.insert(7);
+        maxHeap.insert(16);
+        maxHeap.insert(32);
+        maxHeap.insert(85);
+        maxHeap.insert(19);
+        maxHeap.insert(199);
+        maxHeap.insert(119);
+        maxHeap.insert(27);
+
+        maxHeap.printHeap();
+        maxHeap.printNodes();
+        maxHeap.printIndexs();
+
+        while (!maxHeap.empty()) {
+            cout << maxHeap.extractMax()<<" ";
+        }
     }
 
 };
