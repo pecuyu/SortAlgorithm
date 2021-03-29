@@ -7,7 +7,7 @@
 
 #include "SortTestUtils.h"
 #include "Algorithms.h"
-#include "MaxHeap.h"
+#include "structrue/MaxHeap.h"
 
 
 class Tester{

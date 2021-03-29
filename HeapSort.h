@@ -6,7 +6,7 @@
 #define SORTALGORITHM_HEAPSORT_H
 
 #include "SortAlgorithm.h"
-#include "MaxHeap.h"
+#include "structrue/MaxHeap.h"
 
 
 namespace SortAlgorithm {
