@@ -149,6 +149,7 @@ public:
         maxHeap.insert(199);
         maxHeap.insert(119);
         maxHeap.insert(27);
+        maxHeap.insert(57);
 
         maxHeap.insert(10, 666);
         maxHeap.insert(15, 999);
@@ -156,6 +157,7 @@ public:
         maxHeap.printHeap();
         maxHeap.printNodes();
         maxHeap.printIndexs();
+        maxHeap.printReverse();
 
         while (!maxHeap.empty()) {
             cout << maxHeap.extractMax()<<" ";
