@@ -150,6 +150,9 @@ public:
         maxHeap.insert(119);
         maxHeap.insert(27);
 
+        maxHeap.insert(10, 666);
+        maxHeap.insert(15, 999);
+
         maxHeap.printHeap();
         maxHeap.printNodes();
         maxHeap.printIndexs();

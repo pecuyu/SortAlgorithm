@@ -161,7 +161,7 @@ namespace SortAlgorithm {
                     newPos = right;
                 }
 
-                if (nodes[indexs[pos]] >= nodes[indexs[newPos]]) {
+                if (target >= nodes[indexs[newPos]]) {
                     break;
                 }
 
@@ -253,6 +253,28 @@ namespace SortAlgorithm {
             shiftUpNoSwap(_size);
 
             return true;
+        }
+
+        /**
+         * 插入指定位置, 若大于_size, 则尾部追加,否则替换指定pos的值
+         * @param pos 映射到内部的索引, pos加1
+         * @param newNode
+         */
+        void insert(int pos, Node newNode) {
+            pos++; // 外界的index从0开始, 内部维护的index从1开始,因此需要加1
+            if (pos > _size){ // 在末尾追加
+                insert(newNode);
+            } else { // 替换指定pos的值
+                nodes[pos] = newNode;
+                // 找到pos在indexs中对应的值
+                for (int i = 1; i <= _size; ++i) {
+                    if (indexs[i] == pos) {
+                        shiftUpNoSwap(i);
+                        shiftDownNoSwap(i);
+                        break;
+                    }
+                }
+            }
         }
 
         /**
