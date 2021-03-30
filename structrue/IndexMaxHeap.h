@@ -173,14 +173,11 @@ namespace SortAlgorithm {
             int newPos; // 新要调整的位置,默认为pos
 
             while (true) {
-                if (pos >= _size) {
-                    break;
-                }
-
                 // 左右节点索引
                 left = pos * 2;
                 right = left + 1;
                 newPos = left; // 新要调整的位置,默认为left
+                if (left > _size) break; // 此时没有子节点,直接跳出
                 // 判断左右节点节点是否有大于当前target处, 记录newPos
                 if (right <= _size && nodes[indexs[right]] > nodes[indexs[left]]) {
                     newPos = right;
