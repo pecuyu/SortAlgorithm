@@ -130,17 +130,14 @@ namespace SortAlgorithm {
 
         // pos处开始,从顶到底调整最大堆
         void shiftDown(int pos) {
-            while (true) {
-                if (pos >= _size) {
-                    break;
-                }
+            // 左右节点索引
+            int left = pos * 2;
+            int right = left + 1;
+            int newPos = pos; // 新要调整的位置,默认为pos
 
-                // 左右节点索引
-                int left = pos * 2;
-                int right = left + 1;
-                int newPos = pos; // 新要调整的位置,默认为pos
+            while (left <= _size) { // 至少有一个子节点
                 // 判断左右节点节点是否有大于当前pos处
-                if (left <= _size && nodes[indexs[left]] > nodes[indexs[newPos]]) { // 如果newPos处小于左节点
+                if (nodes[indexs[left]] > nodes[indexs[newPos]]) { // 如果newPos处小于左节点
                     newPos = left; // 更新位置为 left
                 }
 
@@ -156,6 +153,8 @@ namespace SortAlgorithm {
                 reverse[indexs[newPos]] = newPos;
                 reverse[indexs[pos]] = pos;
                 pos = newPos;
+                left = pos * 2;
+                right = left + 1;
             }
         }
 
@@ -168,28 +167,26 @@ namespace SortAlgorithm {
 
             int prevNodePos = indexs[pos];
             Node target = nodes[prevNodePos];
-            int left;
-            int right;
-            int newPos; // 新要调整的位置,默认为pos
+            int left = pos * 2;  // 左右节点索引
+            int right = left + 1;
+            int newPos; // 新要调整的位置
 
-            while (true) {
-                // 左右节点索引
-                left = pos * 2;
-                right = left + 1;
+            while (left <= _size) { // 至少需要一个子节点才继续
                 newPos = left; // 新要调整的位置,默认为left
-                if (left > _size) break; // 此时没有子节点,直接跳出
                 // 判断左右节点节点是否有大于当前target处, 记录newPos
                 if (right <= _size && nodes[indexs[right]] > nodes[indexs[left]]) {
                     newPos = right;
                 }
 
-                if (target >= nodes[indexs[newPos]]) {
+                if (target >= nodes[indexs[newPos]]) { // >=所有子节点
                     break;
                 }
 
                 indexs[pos] = indexs[newPos]; // 将子节点移动到父节点位置, 移动索引
                 reverse[indexs[pos]] = pos;
                 pos = newPos;
+                left = pos * 2;  // 左右节点索引
+                right = left + 1;
             }
 
             indexs[pos] = prevNodePos;
