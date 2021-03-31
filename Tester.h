@@ -7,9 +7,6 @@
 
 #include "SortTestUtils.h"
 #include "Algorithms.h"
-#include "structrue/IndexMaxHeap.h"
-#include "structrue/MaxHeap.h"
-
 
 class Tester{
 
@@ -93,7 +90,7 @@ public:
     }
 
     static void testMaxHeap(){
-        SortAlgorithm::MaxHeap<int> maxHeap(10);
+        MaxHeap<int> maxHeap(10);
         maxHeap.insert(6);
         maxHeap.insert(3);
         maxHeap.insert(8);
@@ -140,7 +137,7 @@ public:
     }
 
     static void testIndexMapHeap(){
-        SortAlgorithm::IndexMaxHeap<int> maxHeap(10);
+        IndexMaxHeap<int> maxHeap(10);
         maxHeap.insert(6);
         maxHeap.insert(3);
         maxHeap.insert(8);

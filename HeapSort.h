@@ -6,17 +6,19 @@
 #define SORTALGORITHM_HEAPSORT_H
 
 #include "SortAlgorithm.h"
-#include "structrue/MaxHeap.h"
-#include "structrue/IndexMaxHeap.h"
+#include "structrue/Structures.h"
+
+using Structures::MaxHeap;
+using Structures::IndexMaxHeap;
 
 namespace SortAlgorithm {
 
     class HeapSort {
     public:
         /**
-         * @tparam T 
-         * @param array 
-         * @param length 
+         * @tparam T
+         * @param array
+         * @param length
          * @param asc  是否升序
          */
         template<typename T>
@@ -101,4 +103,5 @@ namespace SortAlgorithm {
     };
 
 }
+
 #endif //SORTALGORITHM_HEAPSORT_H

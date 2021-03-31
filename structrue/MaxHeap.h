@@ -7,7 +7,7 @@
 
 #include "../SortAlgorithm.h"
 
-namespace SortAlgorithm{
+namespace Structures {
     /**
      *  最大堆, 父节点的元素始终保持 >= 子元素
      *  存储的元素从index=1开始 , 因此假若父节点的索引为pos, 则:
