@@ -7,7 +7,7 @@
 
 #include "SortAlgorithm.h"
 #include "structrue/MaxHeap.h"
-
+#include "structrue/IndexMaxHeap.h"
 
 namespace SortAlgorithm {
 
@@ -60,6 +60,9 @@ namespace SortAlgorithm {
          */
         template<typename T>
         static void heapSort3(T array[], int length, bool asc) {
+            assert(array != nullptr);
+            assert(length > 0);
+
             // 将数组堆化 heapify
             for (int i = (length - 1) / 2; i >= 0; --i) {
                 MaxHeap<T>::shiftDown(array, i, length);
@@ -76,6 +79,23 @@ namespace SortAlgorithm {
                 for (int i = 0; i < length / 2; ++i) {
                     swap(array[i], array[length - 1 - i]);
                 }
+            }
+        }
+
+        // 使用索引最大堆实现堆排序
+        template<typename T>
+        static void heapSort4(T array[], int length, bool asc) {
+            assert(array != nullptr);
+            assert(length > 0);
+
+            IndexMaxHeap<T> maxHeap(array,length);
+            /*IndexMaxHeap<T> maxHeap(length);
+            for (int i = 0; i < length; ++i) {
+                maxHeap.insert(array[i]);
+            }*/
+
+            for (int i = 0; i < length; ++i) { // 依次取出最大堆的最大元素重新写回原数组
+                array[asc ? (length - 1 - i) : i] = maxHeap.extractMax();
             }
         }
     };
