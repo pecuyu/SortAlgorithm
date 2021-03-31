@@ -138,58 +138,26 @@ namespace SortAlgorithm{
 
             int prevPos = pos;
             Node target = nodes[pos];
-            int left;
-            int right;
-            int newPos; // 新要调整的位置,默认为pos
-            bool hasBiggerChild = false;
+            int left = pos * 2;
+            int right = left + 1;
+            int newPos; // 新要调整的位置
 
-            while (true) {
-                if (pos >= _size) {
-                    break;
+            while (left <= _size) { // 至少有一个子节点才继续
+                newPos = left;
+                // 有左右子节点, 先比较两者的大小
+                if (right <= _size && nodes[right] > nodes[left]) {
+                    newPos = right;
                 }
 
-                // 左右节点索引
-                left = pos * 2;
-                right = left + 1;
-                newPos = pos; // 新要调整的位置,默认为pos
-                hasBiggerChild = false;
-                // 判断左右节点节点是否有大于当前target处, 记录newPos
-                /*if (right <= _size) { // 说明有2个child
-                    bool leftBigger = nodes[left] > nodes[right];
-                    if (leftBigger) {
-                        if (nodes[left] > target) {
-                            newPos = left;
-                        }
-                    } else if (nodes[right] > target) {
-                        newPos = right;
-                    }
-                } else if (left <= _size) { // 有左节点
-                    if (nodes[left] > target) {
-                        newPos = left;
-                    }
-                } else { // 无子节点
-                    break;
-                }*/ // 上面注释掉的与下面两个比较功能类似
-
-                if (left <= _size && nodes[left] > target) { // 如果newPos处小于左节点
-                    hasBiggerChild = true;
-                    newPos = left;
-                }
-
-                // 如果发现左节点大于target, 此时比较的时左右节点谁大. 否则判断右节点与target
-                if (right <= _size && (hasBiggerChild ? // 此处说明left是否大于target
-                            (nodes[right] > nodes[left]) :  // 若大于target,此时判断左右子节点谁大
-                            (nodes[right] > target) /* 否则比较右节点和target的大小 */  )) {
-                    //  如果newPos处小于右节点
-                    newPos = right; // 更新位置为 right
-                }
-
-                if (newPos == pos) { // pos没变,说明此时已满足
+                if (target >= nodes[newPos]) { // >=左右子节点
                     break;
                 }
 
                 nodes[pos] = nodes[newPos]; // 将子节点移动到父节点位置
                 pos = newPos;
+                // 更新左右节点索引
+                left = pos * 2;
+                right = left + 1;
             }
 
             if (prevPos != pos) {
